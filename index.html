@@ -105,11 +105,10 @@
     </div>
     <!-- Page Contents -->
     <h2>Enter a valid Yu-gi-oh card name in the search bar for a quick look up.</h2>
-    <span id="results">should change</span>
+    <span id="results">placeholder, card info will appear here</span>
+  <!-- End of Page Contents -->
   
 <script type="text/javascript">
-
-  let card ={};
   
   function cardlookup()
   {
@@ -118,7 +117,7 @@
 
     var nameArray = inputName.split(" ");
 
-    if (nameArray.length > 0)
+    if (nameArray.length > 0 )
     {
       var cardNameFormated = nameArray[0]
       for(let i=1; i<nameArray.length; i++)
@@ -129,15 +128,15 @@
     }
     console.log(cardNameFormated)
     
-    //let info = document.getElementById('resultsCardname')
     const ygoxhr= new XMLHttpRequest
     ygoxhr.open('GET','https://db.ygoprodeck.com/api/v7/cardinfo.php?name='+cardNameFormated)
     ygoxhr.onload = function () {
       let info = ygoxhr.response
-      let printinfo = JSON.parse(info).data
+      let printinfo = JSON.parse(info).data[0]
+      //parsed info//
       console.log(printinfo)
 
-      card = printinfo
+      // TO DO: format parsed info so it can be displayed on the home page.//
       document.getElementById("results").innerHTML = info
 
     }
