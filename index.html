@@ -10,9 +10,9 @@
 </head>
 
 <body>
-    <!-- Navigation bar -->
-    <div>
-      <style>
+<!-- Navigation bar -->
+  <div>
+    <style>
         ul 
         {
           list-style-type: none;
@@ -88,8 +88,8 @@
           font-size: 16px;
         }
       </style>
+<!-- Search bar form -->
     <ul>
-      
       <li><sitename>YGO Card Catalog</sitename></li>
       <li><a class="active">Home</a></li>
       <li>      
@@ -99,22 +99,25 @@
         </form>
       </li>
     </ul>
-
-
-
-    </div>
-    <!-- Page Contents -->
-    <h2>Enter a valid Yu-gi-oh card name in the search bar for a quick look up.</h2>
-    <span id="results">placeholder, card info will appear here</span>
-  <!-- End of Page Contents -->
+<!-- End of search bar form -->
+  </div>
+  
+<!-- Page Contents -->
+  <h2>Enter a valid Yu-gi-oh card name in the search bar for a quick look up.</h2>
+  <img src=" " id="ygoimg">
+  <p id="ygoname"></p>
+  <p id="ygoid"></p>
+  <p id="ygodesc"></p>
+  
+<!-- End of Page Contents -->
   
 <script type="text/javascript">
-  
+  // Function that first formats the cardname received from form cardsearch, then makes an API call using the cardname and prints the info to the html doc. //
   function cardlookup()
   {
     inputName = document.cardsearch.cardname.value
     console.log(inputName)
-
+    // Split name up by spaces into an array, then format it //
     var nameArray = inputName.split(" ");
 
     if (nameArray.length > 0 )
@@ -127,7 +130,8 @@
       }
     }
     console.log(cardNameFormated)
-    
+
+    // xmlhttprequest to get info from the api //
     const ygoxhr= new XMLHttpRequest
     ygoxhr.open('GET','https://db.ygoprodeck.com/api/v7/cardinfo.php?name='+cardNameFormated)
     ygoxhr.onload = function () {
@@ -135,9 +139,13 @@
       let printinfo = JSON.parse(info).data[0]
       //parsed info//
       console.log(printinfo)
-
+      console.log(printinfo.card_images[0].image_url_small)
       // TO DO: format parsed info so it can be displayed on the home page.//
-      document.getElementById("results").innerHTML = info
+      document.getElementById("ygoimg").src = printinfo.card_images[0].image_url_small
+      document.getElementById("ygoname").innerHTML = "Card Name: "+printinfo.name
+      document.getElementById("ygoid").innerHTML = "Card ID: "+printinfo.id
+      document.getElementById("ygodesc").innerHTML = "Card Description: "+printinfo.desc
+      
 
     }
     ygoxhr.send()
